@@ -1,7 +1,7 @@
-// main.js
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const log = require("electron-log");
+
 if (require("electron-squirrel-startup")) return;
 
 // Configure logging
@@ -41,12 +41,7 @@ autoUpdater.on("checking-for-update", () => {
 
 autoUpdater.on("update-available", (info) => {
   log.info("Update available:", info);
-  dialog.showMessageBox({
-    type: "info",
-    title: "Update Available",
-    message: "A new version is available. The update is being downloaded now.",
-    buttons: ["Okay"],
-  });
+  // Optionally notify that an update is available without requiring action
 });
 
 autoUpdater.on("update-not-available", (info) => {
@@ -58,23 +53,16 @@ autoUpdater.on("download-progress", (progressObj) => {
   message += ` - Downloaded ${progressObj.percent}%`;
   message += ` (${progressObj.transferred}/${progressObj.total})`;
   log.info(message);
+
+  // Optionally send progress to renderer process
   mainWindow.webContents.send("download-progress", progressObj.percent);
 });
 
 autoUpdater.on("update-downloaded", (info) => {
   log.info("Update downloaded:", info);
-  dialog
-    .showMessageBox({
-      type: "info",
-      title: "Update Ready",
-      message: "Install update now?",
-      buttons: ["Yes", "Later"],
-    })
-    .then((buttonIndex) => {
-      if (buttonIndex.response === 0) {
-        autoUpdater.quitAndInstall(false, true);
-      }
-    });
+
+  // Automatically quit and install the update without user intervention
+  autoUpdater.quitAndInstall(false, true); // This will install the update immediately
 });
 
 autoUpdater.on("error", (err) => {
