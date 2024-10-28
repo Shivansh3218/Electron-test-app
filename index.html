@@ -1,13 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Electron Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #update-status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-
-    <h1>Hello Electron</h1>
-    
+    <h1>Electron Test App</h1>
+    <p>Version: <span id="version">1.0.0</span></p>
+    <h1>This is the updated application of version v1.0.1</h1>
+    <div id="update-status"></div>
+    <script>
+        const { ipcRenderer } = require('electron');
+        
+        // Update version display
+        document.getElementById('version').innerText = require('./package.json').version;
+        
+        // Listen for update progress
+        ipcRenderer.on('download-progress', (event, percent) => {
+            document.getElementById('update-status').innerText = 
+                `Downloading update: ${Math.floor(percent)}%`;
+        });
+    </script>
 </body>
 </html>
