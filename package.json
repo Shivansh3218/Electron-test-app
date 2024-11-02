@@ -6,9 +6,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder build --win",
-    "deploy": "electron-builder build --win --publish always",
-    "publish": "electron-builder build --win --publish always"
+    "build": "electron-builder build --linux",
+    "deploy": "electron-builder build --linux --publish always",
+    "publish": "electron-builder build --linux --publish always"
   },
   "repository": {
     "type": "git",
@@ -27,12 +27,13 @@
         "repo": "Electron-test-app"
       }
     ],
-    "win": {
+    "linux": {
       "target": [
         {
-          "target": "nsis",
+          "target": "AppImage",
           "arch": [
-            "x64"
+            "x64",
+            "arm64"
           ]
         }
       ]
@@ -53,6 +54,6 @@
   },
   "devDependencies": {
     "electron": "^28.0.0",
-    "electron-builder": "^24.9.1"
+    "electron-builder": "^24.13.3"
   }
 }
