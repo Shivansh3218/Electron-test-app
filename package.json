@@ -1,6 +1,6 @@
 {
   "name": "electron-test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Electron test application with auto-updates",
   "author": "Shivansh",
   "main": "main.js",
